@@ -131,6 +131,28 @@ class LinkedList:
             current = next_node
         self.head = prev_node
 
+    def swap_two_numbers(self, data1, data2):
+        if not self.head or self.head.next:
+            return
+        
+        left = 
+        current = self.head
+        right =
+        
+        while current:
+            if current.data == data1:
+                left = current.data
+            
+            if current.data == data2:
+                right = current.data
+            
+            current = current.next
+        
+        current.next = right.next
+        right.next = current
+        left.next = right
+
+
     def print_the_values(self):
         current = self.head
         while current:
