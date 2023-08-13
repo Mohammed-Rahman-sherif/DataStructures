@@ -17,22 +17,30 @@ class LinkedList:
 
         if not self.head:
             self.head = new_node
+            new_node.next = None
+            new_node.prev = None
             return
         
         current = self.head
 
         if current.data >= data:
-            new_node.next = self.head
-            self.head.prev = new_node
+            new_node.next = current
+            current.prev = new_node
             self.head = new_node
+            return
         
-        while current.next and current.next.data < data:
+        while current.next and current.data < data:
             current = current.next
 
-        new_node.next = current.next
-        new_node.prev = current
-        current.next = new_node
-        current.next.prev = new_node
+        if not current.next:
+            new_node.prev = current
+            current.next = new_node
+            return
+
+        new_node.next = current.prev.next
+        new_node.prev = current.prev
+        current.prev.next = new_node
+        current.prev = new_node
 
     def insert_in_end(self, data):
         new_node = Node(data)
@@ -87,9 +95,10 @@ class LinkedList:
             while current and count < position:
                 current = current.next
                 count += 1
-            
+
             current.prev.next = current.next
-            current.next.prev = current.prev
+            if current.next:
+                current.next.prev = current.prev
 
     def reverse_dll(self):
         if not self.head:
@@ -137,15 +146,17 @@ if __name__ == "__main__":
     DLL.print_values()
     DLL.reverse_dll()
     DLL.print_values()'''
+    DLL.insert_in_sort(15)
+    DLL.insert_in_sort(40)
+    DLL.insert_in_sort(30)
+    DLL.insert_in_sort(20)
     DLL.insert_in_sort(10)
-    DLL.insert_in_sort(45)
-    DLL.insert_in_sort(25)
-    DLL.insert_in_sort(50)
-    DLL.insert_in_sort(60)
     DLL.print_values()
     #DLL.swap_dll()
     #DLL.print_values()
     DLL.delete_by_position(2)
+    DLL.print_values()
+    DLL.reverse_dll()
     DLL.print_values()
         
         
