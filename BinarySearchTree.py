@@ -23,6 +23,51 @@ class BinarySearchTree:
 
         return root
     
+    def delete_node(self, value):
+        self._delete_node_recursive(self.root, value)
+
+    def _delete_node_recursive(self, root, value):
+        if root is None:
+            return root
+        
+        if value < root.value:
+            root.left = self._delete_node_recursive(root.left, value)
+        
+        elif value > root.value:
+            root.right = self._delete_node_recursive(root.right, value)
+
+        else:
+            if root.left is None:
+                return root.right
+            
+            elif root.right is None:
+                return root.left
+            
+            root.value = self._min_value_node(root.left).value
+            root.right = self._delete_node_recursive(root.right, root.value)
+        
+        return root
+
+    def _min_value_node(self, node):
+        current = node
+        while current:
+            current = current.left
+
+        return current
+    
+    def search_node(self, value):
+        return self._search_node_recursive(self.root, value)
+
+    def _search_node_recursive(self, root, value):
+        if root is None or value == root.value:
+            return root
+
+        if value < root.value:
+            return self._search_node_recursive(root.left, value)
+
+        else:
+            return self._search_node_recursive(root.right, value) 
+    
     def inorder_traversal(self):
         self._inorder_traversal_recursive(self.root)
 
@@ -64,3 +109,14 @@ BST.preorder_traversal()
 
 print("\n\nPost-Order Traversal: ")
 BST.postorder_traversal()
+
+print("\n\nDeleting Node...")
+BST.delete_node(20)
+BST.inorder_traversal()
+
+search_value = 30
+result = BST.search_node(search_value)
+if result:
+    print(f"\n\nThe search value: {search_value} is found in the tree!")
+else:
+    print(f"\n\nThe search value {search_value} is not found in the tree!")
